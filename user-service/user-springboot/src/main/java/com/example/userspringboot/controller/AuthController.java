@@ -1,5 +1,7 @@
 package com.example.userspringboot.controller;
 
+import com.example.userspringboot.dto.LoginRequest;
+import com.example.userspringboot.dto.LoginResponse;
 import com.example.userspringboot.dto.RegisterRequest;
 import com.example.userspringboot.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,4 +32,16 @@ public class AuthController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginRequest request){
+        try{
+            String token = authService.login(request);
+            return ResponseEntity.ok(new LoginResponse(token));
+        }catch(RuntimeException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+
 }
